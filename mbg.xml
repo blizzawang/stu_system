@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE generatorConfiguration PUBLIC
+        "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
+        "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd" >
+<generatorConfiguration>
+
+    <context id="context" targetRuntime="MyBatis3">
+        <commentGenerator>
+            <!-- 是否去除自动生成的注释，true：是；false:否 -->
+            <property name="suppressAllComments" value="true"/>
+            <property name="suppressDate" value="false"/>
+        </commentGenerator>
+        <!--数据库连接的信息：驱动类、连接地址、用户名、密码 -->
+        <jdbcConnection driverClass="com.mysql.jdbc.Driver"
+                        connectionURL="jdbc:mysql:///emp"
+                        userId="root"
+                        password="123456"/>
+        <!--默认false，把JDBC DECIMAL 和 NUMERIC 类型解析为 Integer，-->
+        <!--为 true时把JDBC DECIMAL 和 NUMERIC 类型解析为java.math.BigDecimal -->
+        <!-- 非必需，类型处理器，在数据库类型和java类型之间的转换控制-->
+        <javaTypeResolver>
+            <property name="forceBigDecimals" value="false"/>
+        </javaTypeResolver>
+        <!--生成PO类的位置 配置生成的实体包-->
+        <!--targetPackage：生成的实体包位置，默认存放在src目录下-->
+        <!--targetProject：相对路径 路径拼接结果 src/main/java/com/wwj/bean -->
+        <javaModelGenerator targetPackage="com.wwj.bean" targetProject="src/main/java">
+            <!-- enableSubPackages:是否让schema作为包的后缀 -->
+            <property name="enableSubPackages" value="false"/>
+            <!-- 从数据库返回的值被清理前后的空格 -->
+            <property name="trimStrings" value="true"/>
+        </javaModelGenerator>
+        <!-- 实体包对应映射文件位置及名称，默认存放在src目录下 同上 -->
+        <sqlMapGenerator targetPackage="mappers" targetProject="src/main/resources">
+            <!-- enableSubPackages:是否让schema作为包的后缀 -->
+            <property name="enableSubPackages" value="false"/>
+        </sqlMapGenerator>
+        <!--targetPackage：mapper接口生成的位置-->
+        <javaClientGenerator targetPackage="com.wwj.dao" type="XMLMAPPER" targetProject="src/main/java">
+            <!-- enableSubPackages:是否让schema作为包的后缀 -->
+            <property name="enableSubPackages" value="false"/>
+        </javaClientGenerator>
+
+        <table tableName="t_user" domainObjectName="User"/>
+        <table tableName="t_stu" domainObjectName="Student"/>
+    </context>
+</generatorConfiguration>
+

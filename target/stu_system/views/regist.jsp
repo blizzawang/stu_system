@@ -30,7 +30,7 @@
 					<h1>
 						注册
 					</h1>
-					<form action="login.html" method="post">
+					<form action="/register" method="post">
 						<table cellpadding="0" cellspacing="0" border="0"
 							class="form_table">
 							<tr>

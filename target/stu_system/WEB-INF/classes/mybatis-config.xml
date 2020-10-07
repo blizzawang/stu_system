@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+
+    <!-- 配置全局属性 -->
+    <settings>
+        <!-- 开启驼峰命名规则映射 -->
+        <setting name="mapUnderscoreToCamelCase" value="true"/>
+    </settings>
+
+    <!--设置别名-->
+    <typeAliases>
+        <package name="com.wwj.bean"/>
+    </typeAliases>
+
+    <!-- 注册插件 -->
+   <!-- <plugins>
+        <plugin interceptor="com.github.pagehelper.PageInterceptor"></plugin>
+    </plugins>-->
+
+</configuration>

@@ -2,10 +2,62 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:context="http://www.springframework.org/schema/context"
-       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+       xmlns:aop="http://www.springframework.org/schema/aop" xmlns:tx="http://www.springframework.org/schema/tx"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd http://www.springframework.org/schema/cache http://www.springframework.org/schema/cache/spring-cache.xsd http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd">
 
-    <!-- 排除控制器 -->
+    <!-- Spring配置文件 -->
+
+    <!-- 配置扫描的包 -->
     <context:component-scan base-package="com.wwj">
+        <!-- 为了避免与SpringMVC重复扫描，Spring需要扫描除控制器外的所有包 -->
         <context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
     </context:component-scan>
+
+    <!-- 引入外部属性文件 -->
+    <context:property-placeholder location="classpath:dbconfig.properties"/>
+
+    <!-- 配置数据源 -->
+    <bean id="pooledDataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource">
+        <property name="jdbcUrl" value="${jdbc.jdbcUrl}"/>
+        <property name="driverClass" value="${jdbc.jdbcDriver}"/>
+        <property name="user" value="${jdbc.jdbcUser}"/>
+        <property name="password" value="${jdbc.jdbcPassword}"/>
+    </bean>
+
+    <!-- 配置与Mybatis的整合 -->
+    <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+        <!-- 指定Mybatis的全局配置文件 -->
+        <property name="configLocation" value="classpath:mybatis-config.xml"/>
+        <property name="dataSource" ref="pooledDataSource"/>
+        <!-- 指定Mybatis的mapper文件位置 -->
+        <property name="mapperLocations" value="classpath:mappers/*.xml"/>
+    </bean>
+
+    <!-- 配置扫描器，将Mybatis接口的实现加入到IOC容器中 -->
+    <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+        <!-- 扫描dao包下的所有接口 -->
+        <property name="basePackage" value="com.wwj.dao"/>
+    </bean>
+
+    <!-- 配置事务管理器 -->
+    <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+        <property name="dataSource" ref="pooledDataSource"/>
+    </bean>
+
+    <!-- 配置基于xml形式的事务 -->
+    <!-- 配置事务属性 -->
+    <tx:advice id="txAdvice">
+        <tx:attributes>
+            <!-- 所有方法都是事务方法 -->
+            <tx:method name="*"/>
+            <!-- get开头的所有方法都是查询 -->
+            <tx:method name="get*" read-only="true"/>
+        </tx:attributes>
+    </tx:advice>
+    <aop:config>
+        <!-- 配置切入点 -->
+        <aop:pointcut id="txPointCut" expression="execution(* com.wwj.service..*(..))"/>
+        <!-- 关联事务属性和切入点 -->
+        <aop:advisor advice-ref="txAdvice" pointcut-ref="txPointCut"/>
+    </aop:config>
 </beans>
