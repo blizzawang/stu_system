@@ -5,6 +5,10 @@
 		<title>regist</title>
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 		<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/views/css/style.css" />
+
+		<link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css">
+		<script src="https://cdn.bootcss.com/jquery/2.1.1/jquery.min.js"></script>
+		<script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 	</head>
 	<body>
 		<div id="wrap">
@@ -30,7 +34,7 @@
 					<h1>
 						注册
 					</h1>
-					<form action="/register" method="post">
+					<form action="${pageContext.request.contextPath}/views/register" method="post">
 						<table cellpadding="0" cellspacing="0" border="0"
 							class="form_table">
 							<tr>
@@ -40,13 +44,19 @@
 								<td valign="middle" align="left">
 									<input type="text" class="inputgri" name="username" />
 								</td>
+								<td>
+									<span class="label label-danger">${regist_flag}${name_flag}</span>
+								</td>
 							</tr>
 							<tr>
 								<td valign="middle" align="right">
 									真实姓名:
 								</td>
 								<td valign="middle" align="left">
-									<input type="text" class="inputgri" name="name" />
+									<input type="text" class="inputgri" name="realname" />
+								</td>
+								<td>
+									<span class="label label-danger">${rename_flag}</span>
 								</td>
 							</tr>
 							<tr>
@@ -54,7 +64,10 @@
 									密码:
 								</td>
 								<td valign="middle" align="left">
-									<input type="password" class="inputgri" name="pwd" />
+									<input type="password" class="inputgri" name="password" />
+								</td>
+								<td>
+									<span class="label label-danger">${pwd_flag}</span>
 								</td>
 							</tr>
 							<tr>

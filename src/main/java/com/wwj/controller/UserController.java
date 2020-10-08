@@ -1,8 +1,13 @@
 package com.wwj.controller;
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
+import com.wwj.bean.Student;
 import com.wwj.bean.User;
+import com.wwj.service.StudentService;
 import com.wwj.service.UserService;
 import com.wwj.util.MyTimer;
+import com.wwj.util.Utils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpRequest;
 import org.springframework.stereotype.Controller;
@@ -13,15 +18,21 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * 登录注册控制器
+ */
 @Controller
 @RequestMapping("/views")
 public class UserController {
 
     @Autowired
     private UserService userService;
+    @Autowired
+    private StudentService studentService;
 
     @RequestMapping("/login")
     public String login(@RequestParam("name") String name, @RequestParam("pwd") String pwd, Map<String,Object> map, HttpServletRequest request){
@@ -78,9 +89,61 @@ public class UserController {
                     return "login";
                 }else{
                     //用户名存在，且密码正确，允许登录
-                    return "emplist";
+                    //在查询数据之前，调用分页插件
+                    //将数据表中的所有学生信息查询出来，并放入请求域
+//                    List<Student> studentList = studentService.findAll();
+//                    map.put("stu_list",studentList);
+                    //将用户名放入请求域
+                    map.put("username",user.getUsername());
+                    return "forward:/views/stus";
                 }
             }
         }
+    }
+
+    @RequestMapping("/register")
+    public String register(User user,Map<String,Object> map){
+        //判断输入数据是否为空
+        if(Utils.isEmpty(user.getUsername())){
+            System.out.println(user.getUsername());
+            map.put("name_flag","用户名不允许为空!");
+        }else if(Utils.isEmpty(user.getRealname())){
+            System.out.println(user.getRealname());
+            map.put("rename_flag","真实姓名不允许为空!");
+        }else if(Utils.isEmpty(user.getPassword())){
+            System.out.println(user.getUsername());
+            map.put("pwd_flag","密码不允许为空!");
+        }else{
+            //判断该用户在数据表中是否已经存在
+            List<User> userList = userService.ifExists(user.getUsername());
+            if(!userList.isEmpty()){
+                //若集合不为空，则说明该用户名已经被注册，提示用户
+                map.put("regist_flag","该用户名已经被注册!");
+            }else{
+                //若不存在，则将注册信息进行保存
+                //改造从表单传递过来的User对象
+                user.setStatus("1");    //新创建的用户处于激活状态
+                user.setRegistertime(new Date()); //注册时间
+                userService.saveUser(user);
+            }
+        }
+        return "regist";
+    }
+
+    /**
+     * 分页显示
+     * @param pn 页码
+     * @param map
+     * @return
+     */
+    @RequestMapping("/stus")
+    public String getStus(@RequestParam(value = "pn",defaultValue = "1") Integer pn,Map<String,Object> map){
+        //设置每页仅显示4条数据
+        PageHelper.startPage(pn,4);
+        List<Student> studentList = studentService.findAll();
+        //使用PageInfo包装查询结果
+        PageInfo pageInfo = new PageInfo(studentList,5);    //传入连续显示的页数
+        map.put("pageInfo",pageInfo);
+        return "emplist";
     }
 }

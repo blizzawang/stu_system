@@ -8,6 +8,9 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+/**
+ * 登录注册服务层
+ */
 @Service
 public class UserService {
 
@@ -50,5 +53,14 @@ public class UserService {
         criteria.andIdEqualTo(user.getId());
         user.setStatus("1");
         return userMapper.updateByExampleSelective(user,userExample);
+    }
+
+
+    /**
+     * 注册功能：保存指定的用户信息
+     * @param user
+     */
+    public int saveUser(User user){
+        return userMapper.insert(user);
     }
 }

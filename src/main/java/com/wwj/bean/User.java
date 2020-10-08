@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.util.Date;
 
 /**
- * 用户类
+ * POJO
  */
 public class User implements Serializable {
     private Integer id;
@@ -75,5 +75,18 @@ public class User implements Serializable {
 
     public void setRegistertime(Date registertime) {
         this.registertime = registertime;
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", username='" + username + '\'' +
+                ", realname='" + realname + '\'' +
+                ", password='" + password + '\'' +
+                ", sex='" + sex + '\'' +
+                ", status='" + status + '\'' +
+                ", registertime=" + registertime +
+                '}';
     }
 }

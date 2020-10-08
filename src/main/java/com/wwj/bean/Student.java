@@ -1,5 +1,8 @@
 package com.wwj.bean;
 
+/**
+ * POJO
+ */
 public class Student {
     private Integer id;
 
