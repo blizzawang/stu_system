@@ -1,11 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.wwj.dao.StudentMapper">
+
+  <cache flushInterval="60000" size="1024" readOnly="true" eviction="FIFO" type="com.wwj.util.RedisCache"/>
+
   <resultMap id="BaseResultMap" type="com.wwj.bean.Student">
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="name" jdbcType="VARCHAR" property="name" />
     <result column="photopath" jdbcType="VARCHAR" property="photopath" />
-    <result column="salary" jdbcType="DOUBLE" property="salary" />
+    <result column="sex" jdbcType="VARCHAR" property="sex" />
     <result column="age" jdbcType="INTEGER" property="age" />
   </resultMap>
   <sql id="Example_Where_Clause">
@@ -67,9 +70,10 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, name, photopath, salary, age
+    id, name, photopath, sex, age
   </sql>
-  <select id="selectByExample" parameterType="com.wwj.bean.StudentExample" resultMap="BaseResultMap">
+  <!-- 禁用该方法的缓存 -->
+  <select id="selectByExample" parameterType="com.wwj.bean.StudentExample" resultMap="BaseResultMap" useCache="false">
     select
     <if test="distinct">
       distinct
@@ -83,7 +87,7 @@
       order by ${orderByClause}
     </if>
   </select>
-  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap" useCache="false">
     select 
     <include refid="Base_Column_List" />
     from t_stu
@@ -101,9 +105,9 @@
   </delete>
   <insert id="insert" parameterType="com.wwj.bean.Student">
     insert into t_stu (id, name, photopath, 
-      salary, age)
+      sex, age)
     values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{photopath,jdbcType=VARCHAR}, 
-      #{salary,jdbcType=DOUBLE}, #{age,jdbcType=INTEGER})
+      #{sex,jdbcType=VARCHAR}, #{age,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" parameterType="com.wwj.bean.Student">
     insert into t_stu
@@ -117,8 +121,8 @@
       <if test="photopath != null">
         photopath,
       </if>
-      <if test="salary != null">
-        salary,
+      <if test="sex != null">
+        sex,
       </if>
       <if test="age != null">
         age,
@@ -134,8 +138,8 @@
       <if test="photopath != null">
         #{photopath,jdbcType=VARCHAR},
       </if>
-      <if test="salary != null">
-        #{salary,jdbcType=DOUBLE},
+      <if test="sex != null">
+        #{sex,jdbcType=VARCHAR},
       </if>
       <if test="age != null">
         #{age,jdbcType=INTEGER},
@@ -160,8 +164,8 @@
       <if test="record.photopath != null">
         photopath = #{record.photopath,jdbcType=VARCHAR},
       </if>
-      <if test="record.salary != null">
-        salary = #{record.salary,jdbcType=DOUBLE},
+      <if test="record.sex != null">
+        sex = #{record.sex,jdbcType=VARCHAR},
       </if>
       <if test="record.age != null">
         age = #{record.age,jdbcType=INTEGER},
@@ -176,7 +180,7 @@
     set id = #{record.id,jdbcType=INTEGER},
       name = #{record.name,jdbcType=VARCHAR},
       photopath = #{record.photopath,jdbcType=VARCHAR},
-      salary = #{record.salary,jdbcType=DOUBLE},
+      sex = #{record.sex,jdbcType=VARCHAR},
       age = #{record.age,jdbcType=INTEGER}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -191,8 +195,8 @@
       <if test="photopath != null">
         photopath = #{photopath,jdbcType=VARCHAR},
       </if>
-      <if test="salary != null">
-        salary = #{salary,jdbcType=DOUBLE},
+      <if test="sex != null">
+        sex = #{sex,jdbcType=VARCHAR},
       </if>
       <if test="age != null">
         age = #{age,jdbcType=INTEGER},
@@ -204,7 +208,7 @@
     update t_stu
     set name = #{name,jdbcType=VARCHAR},
       photopath = #{photopath,jdbcType=VARCHAR},
-      salary = #{salary,jdbcType=DOUBLE},
+      sex = #{sex,jdbcType=VARCHAR},
       age = #{age,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>

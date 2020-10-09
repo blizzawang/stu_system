@@ -2,14 +2,9 @@ package com.wwj.util;
 
 import com.mchange.v2.c3p0.ComboPooledDataSource;
 import com.wwj.bean.User;
-import com.wwj.dao.UserMapper;
-import com.wwj.service.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.stereotype.Component;
 
-import javax.servlet.http.HttpServletRequest;
-import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;

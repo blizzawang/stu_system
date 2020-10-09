@@ -1,10 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.wwj.dao.UserMapper">
-
-  <!-- 设置redis作为mybatis的二级缓存 -->
-  <cache eviction="FIFO" size="1024" readOnly="true" flushInterval="60000" type="com.wwj.util.RedisCache"/>
-
   <resultMap id="BaseResultMap" type="com.wwj.bean.User">
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="username" jdbcType="VARCHAR" property="username" />
@@ -75,8 +71,7 @@
   <sql id="Base_Column_List">
     id, username, realname, password, sex, status, registerTime
   </sql>
-  <!-- 设置该查询方法不进行缓存，否则会使锁定用户功能出现异常 -->
-  <select id="selectByExample" parameterType="com.wwj.bean.UserExample" resultMap="BaseResultMap" useCache="false">
+  <select id="selectByExample" parameterType="com.wwj.bean.UserExample" resultMap="BaseResultMap">
     select
     <if test="distinct">
       distinct

@@ -76,17 +76,4 @@ public class User implements Serializable {
     public void setRegistertime(Date registertime) {
         this.registertime = registertime;
     }
-
-    @Override
-    public String toString() {
-        return "User{" +
-                "id=" + id +
-                ", username='" + username + '\'' +
-                ", realname='" + realname + '\'' +
-                ", password='" + password + '\'' +
-                ", sex='" + sex + '\'' +
-                ", status='" + status + '\'' +
-                ", registertime=" + registertime +
-                '}';
-    }
 }

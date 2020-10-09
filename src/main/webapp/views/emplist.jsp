@@ -1,3 +1,5 @@
+<%@ page import="java.text.SimpleDateFormat" %>
+<%@ page import="java.util.Date" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
@@ -10,6 +12,31 @@
 		<link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css">
 		<script src="https://cdn.bootcss.com/jquery/2.1.1/jquery.min.js"></script>
 		<script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+		<script type="text/javascript">
+			$(function () {
+				//为删除按钮绑定事件
+				$(document).on("click",".delete-btn",function () {
+					var delete_id = $(this).attr('delete_id');
+					//弹出删除提示框
+					if(confirm("确定删除吗?")){
+						//确认
+						$.ajax({
+							url:"${pageContext.request.contextPath}/views/stu/" + delete_id,
+							type:"POST",
+							data:"_method=DELETE",
+							success:function (data) {
+								if(data == "success"){
+									//重新加载页面
+									location.reload();
+								}
+							}
+						});
+					}
+				});
+			});
+		</script>
+
 	</head>
 	<body>
 		<div id="wrap">
@@ -17,9 +44,9 @@
 				<div id="header">
 					<div id="rightheader">
 						<p>
-							2020/10/10
+							<%=new SimpleDateFormat("yyyy-MM-dd HH:mm").format(new Date())%>
 							<br />
-							<a href="${pageContext.request.contextPath}/views/login.jsp">安全退出</a>
+							<a href="${pageContext.request.contextPath}/views/login.jsp" class="label label-success">安全退出</a>
 						</p>
 					</div>
 					<div id="topheader">
@@ -36,7 +63,7 @@
 					<h1>
 						<span class="label label-primary">欢迎!用户:${username}</span>
 					</h1>
-					<table class="table table-hover">
+					<table class="table table-hover table-striped">
 						<tr class="table_header">
 							<td>
 								ID
@@ -59,12 +86,13 @@
 						</tr>
 
 						<c:forEach items="${pageInfo.list}" var="stu">
-							<c:if test="${stu.id % 2 == 0}">
+							<%--<c:if test="${stu.id % 2 == 0}">
 								<tr class="row1">
 							</c:if>
 							<c:if test="${stu.id % 2 == 1}">
 								<tr class="row2">
-							</c:if>
+							</c:if>--%>
+							<tr>
 								<td>
 									${stu.id}
 								</td>
@@ -75,13 +103,13 @@
 									<img src="${pageContext.request.contextPath}/views/img/nane.gif" style="height: 60px;">
 								</td>
 								<td>
-									${stu.salary == 'm' ? '男':'女'}
+									${stu.sex == 'm' ? '男':'女'}
 								</td>
 								<td>
 									${stu.age}
 								</td>
 								<td>
-									<a href="emplist.html">删除</a>&nbsp;<a href="updateEmp.html">更新</a>
+									<button class="btn btn-warning delete-btn" delete_id="${stu.id}">删除</button>&nbsp;<button class="btn btn-warning"><a href="${pageContext.request.contextPath}/views/updateStu/${stu.id}" style="text-decoration: none;color: white">更新</a></button>
 								</td>
 							</tr>
 						</c:forEach>
@@ -140,7 +168,7 @@
 					</div>
 
 					<p>
-						<input type="button" class="button" value="添加学生信息" onclick="location='addEmp.html'"/>
+						<input type="button" class="button" value="添加学生信息" onclick="location='${pageContext.request.contextPath}/views/addEmp.jsp'"/>
 					</p>
 				</div>
 			</div>

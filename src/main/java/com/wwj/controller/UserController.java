@@ -9,12 +9,9 @@ import com.wwj.service.UserService;
 import com.wwj.util.MyTimer;
 import com.wwj.util.Utils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.SessionAttribute;
-import org.springframework.web.bind.annotation.SessionAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -31,9 +28,15 @@ public class UserController {
 
     @Autowired
     private UserService userService;
-    @Autowired
-    private StudentService studentService;
 
+    /**
+     * 实现登录功能
+     * @param name
+     * @param pwd
+     * @param map
+     * @param request
+     * @return
+     */
     @RequestMapping("/login")
     public String login(@RequestParam("name") String name, @RequestParam("pwd") String pwd, Map<String,Object> map, HttpServletRequest request){
 
@@ -101,6 +104,12 @@ public class UserController {
         }
     }
 
+    /**
+     * 实现注册功能
+     * @param user
+     * @param map
+     * @return
+     */
     @RequestMapping("/register")
     public String register(User user,Map<String,Object> map){
         //判断输入数据是否为空
@@ -128,22 +137,5 @@ public class UserController {
             }
         }
         return "regist";
-    }
-
-    /**
-     * 分页显示
-     * @param pn 页码
-     * @param map
-     * @return
-     */
-    @RequestMapping("/stus")
-    public String getStus(@RequestParam(value = "pn",defaultValue = "1") Integer pn,Map<String,Object> map){
-        //设置每页仅显示4条数据
-        PageHelper.startPage(pn,4);
-        List<Student> studentList = studentService.findAll();
-        //使用PageInfo包装查询结果
-        PageInfo pageInfo = new PageInfo(studentList,5);    //传入连续显示的页数
-        map.put("pageInfo",pageInfo);
-        return "emplist";
     }
 }

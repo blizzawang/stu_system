@@ -304,63 +304,73 @@ public class StudentExample {
             return (Criteria) this;
         }
 
-        public Criteria andSalaryIsNull() {
-            addCriterion("salary is null");
+        public Criteria andSexIsNull() {
+            addCriterion("sex is null");
             return (Criteria) this;
         }
 
-        public Criteria andSalaryIsNotNull() {
-            addCriterion("salary is not null");
+        public Criteria andSexIsNotNull() {
+            addCriterion("sex is not null");
             return (Criteria) this;
         }
 
-        public Criteria andSalaryEqualTo(Double value) {
-            addCriterion("salary =", value, "salary");
+        public Criteria andSexEqualTo(String value) {
+            addCriterion("sex =", value, "sex");
             return (Criteria) this;
         }
 
-        public Criteria andSalaryNotEqualTo(Double value) {
-            addCriterion("salary <>", value, "salary");
+        public Criteria andSexNotEqualTo(String value) {
+            addCriterion("sex <>", value, "sex");
             return (Criteria) this;
         }
 
-        public Criteria andSalaryGreaterThan(Double value) {
-            addCriterion("salary >", value, "salary");
+        public Criteria andSexGreaterThan(String value) {
+            addCriterion("sex >", value, "sex");
             return (Criteria) this;
         }
 
-        public Criteria andSalaryGreaterThanOrEqualTo(Double value) {
-            addCriterion("salary >=", value, "salary");
+        public Criteria andSexGreaterThanOrEqualTo(String value) {
+            addCriterion("sex >=", value, "sex");
             return (Criteria) this;
         }
 
-        public Criteria andSalaryLessThan(Double value) {
-            addCriterion("salary <", value, "salary");
+        public Criteria andSexLessThan(String value) {
+            addCriterion("sex <", value, "sex");
             return (Criteria) this;
         }
 
-        public Criteria andSalaryLessThanOrEqualTo(Double value) {
-            addCriterion("salary <=", value, "salary");
+        public Criteria andSexLessThanOrEqualTo(String value) {
+            addCriterion("sex <=", value, "sex");
             return (Criteria) this;
         }
 
-        public Criteria andSalaryIn(List<Double> values) {
-            addCriterion("salary in", values, "salary");
+        public Criteria andSexLike(String value) {
+            addCriterion("sex like", value, "sex");
             return (Criteria) this;
         }
 
-        public Criteria andSalaryNotIn(List<Double> values) {
-            addCriterion("salary not in", values, "salary");
+        public Criteria andSexNotLike(String value) {
+            addCriterion("sex not like", value, "sex");
             return (Criteria) this;
         }
 
-        public Criteria andSalaryBetween(Double value1, Double value2) {
-            addCriterion("salary between", value1, value2, "salary");
+        public Criteria andSexIn(List<String> values) {
+            addCriterion("sex in", values, "sex");
             return (Criteria) this;
         }
 
-        public Criteria andSalaryNotBetween(Double value1, Double value2) {
-            addCriterion("salary not between", value1, value2, "salary");
+        public Criteria andSexNotIn(List<String> values) {
+            addCriterion("sex not in", values, "sex");
+            return (Criteria) this;
+        }
+
+        public Criteria andSexBetween(String value1, String value2) {
+            addCriterion("sex between", value1, value2, "sex");
+            return (Criteria) this;
+        }
+
+        public Criteria andSexNotBetween(String value1, String value2) {
+            addCriterion("sex not between", value1, value2, "sex");
             return (Criteria) this;
         }
 

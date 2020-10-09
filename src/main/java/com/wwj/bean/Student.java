@@ -1,16 +1,18 @@
 package com.wwj.bean;
 
+import java.io.Serializable;
+
 /**
  * POJO
  */
-public class Student {
+public class Student implements Serializable {
     private Integer id;
 
     private String name;
 
     private String photopath;
 
-    private Double salary;
+    private String sex;
 
     private Integer age;
 
@@ -38,12 +40,12 @@ public class Student {
         this.photopath = photopath == null ? null : photopath.trim();
     }
 
-    public Double getSalary() {
-        return salary;
+    public String getSex() {
+        return sex;
     }
 
-    public void setSalary(Double salary) {
-        this.salary = salary;
+    public void setSex(String sex) {
+        this.sex = sex == null ? null : sex.trim();
     }
 
     public Integer getAge() {
@@ -52,5 +54,16 @@ public class Student {
 
     public void setAge(Integer age) {
         this.age = age;
+    }
+
+    @Override
+    public String toString() {
+        return "Student{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", photopath='" + photopath + '\'' +
+                ", sex='" + sex + '\'' +
+                ", age=" + age +
+                '}';
     }
 }
