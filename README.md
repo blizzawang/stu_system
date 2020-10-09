@@ -1,6 +1,10 @@
 003.png本项目为学生管理系统，使用Spring + SpringMVC + MyBatis + Redis + MySQL架构实现，先介绍一下如何使用：
 
+<<<<<<< HEAD
 直接将项目clone到本地：
+=======
+![image-20201009110635065](https://github.com/blizzawang/stu_system/blob/master/imgs/001.png)
+>>>>>>> 7d00322610e4e1f8b31d4e57d95a01905ca4b2ac
 
 ```git
 git clone https://github.com/blizzawang/stu_system.git
