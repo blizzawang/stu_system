@@ -126,4 +126,16 @@ public class StudentController {
         map.put("student",student);
         return "updateEmp";
     }
+
+    /**
+     * 实现插入学生信息功能
+     * @param student
+     * @return
+     */
+    @RequestMapping(value = "/stu",method = RequestMethod.POST)
+    public String insertStu(Student student){
+        //将学生信息插入数据库
+        studentService.insertStu(student);
+        return "redirect:/views/stus";
+    }
 }

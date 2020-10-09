@@ -51,4 +51,13 @@ public class StudentService {
     public int updateStu(Student student){
         return studentMapper.updateByPrimaryKey(student);
     }
+
+    /**
+     * 将学生信息插入数据库
+     * @param student
+     * @return
+     */
+    public int insertStu(Student student){
+        return studentMapper.insertSelective(student);
+    }
 }

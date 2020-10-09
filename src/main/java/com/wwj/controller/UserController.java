@@ -96,8 +96,8 @@ public class UserController {
                     //将数据表中的所有学生信息查询出来，并放入请求域
 //                    List<Student> studentList = studentService.findAll();
 //                    map.put("stu_list",studentList);
-                    //将用户名放入请求域
-                    map.put("username",user.getUsername());
+                    //将用户名放入session
+                    session.setAttribute("username",user.getUsername());
                     return "forward:/views/stus";
                 }
             }
